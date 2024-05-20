@@ -1,5 +1,4 @@
 import { AVPlaybackStatus, ResizeMode, Video } from "expo-av";
-import Constants from "expo-constants";
 import * as SplashScreen from "expo-splash-screen";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
@@ -12,7 +11,7 @@ import {
 
 export function SplashVideo({ onLoaded, onFinish }) {
   const video = useRef(null);
-  const [lastStatus, setStatus] = useState<AVPlaybackStatus>({});
+  const [lastStatus, setStatus] = useState<AVPlaybackStatus>({} as AVPlaybackStatus);
   const { width } = useWindowDimensions();
   const isTablet = width >= 768;
   return (
@@ -24,12 +23,12 @@ export function SplashVideo({ onLoaded, onFinish }) {
           ? require("./assets/splash-tablet.mp4")
           : require("./assets/splash.mp4")
       }
-      shouldPlay={!(lastStatus.isLoaded && lastStatus.didJustFinish)}
+      shouldPlay={!(lastStatus?.isLoaded && lastStatus?.didJustFinish)}
       isLooping={false}
-      resizeMode={ResizeMode.COVER}
+      resizeMode={ResizeMode?.COVER}
       onPlaybackStatusUpdate={(status) => {
         if (status.isLoaded) {
-          if (lastStatus.isLoaded !== status.isLoaded) {
+          if (lastStatus?.isLoaded !== status.isLoaded) {
             onLoaded();
           }
           if (status.didJustFinish) {
@@ -102,7 +101,7 @@ function AnimatedSplashScreen({ children }) {
           style={[
             StyleSheet.absoluteFill,
             {
-              backgroundColor: Constants.manifest.splash.backgroundColor,
+              backgroundColor: 'black',
               opacity: animation,
             },
           ]}
